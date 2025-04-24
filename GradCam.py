@@ -22,3 +22,18 @@ def compute_gradcam(input_image, model, target_class):
         predictions = tf.convert_to_tensor(predictions)
         print("Predictions shape:", predictions.shape)
         loss = predictions[0, target_class]
+
+    grads = tape.gradient(loss, conv_outputs)[0]
+    conv_outputs = conv_outputs[0]
+
+    # Compute Grad-CAM weights
+    weights = tf.reduce_mean(grads, axis=(0, 1))
+    cam = np.zeros(conv_outputs.shape[:2], dtype=np.float32)
+
+    for i, w in enumerate(weights):
+        cam += w * conv_outputs[:, :, i]
+
+    # Apply ReLU and normalization
+    cam = np.maximum(cam, 0)
+    cam = cam / cam.max() if cam.max() != 0 else cam
+    return cam
