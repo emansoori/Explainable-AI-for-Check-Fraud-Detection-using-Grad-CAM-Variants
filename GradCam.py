@@ -52,3 +52,6 @@ cam = compute_gradcam(img_normalized, grad_model, class_idx)
 
 heatmap = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
 heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_LINEAR)
+
+img_uint8 = np.uint8(img)
+superimposed_img = cv2.addWeighted(img_uint8, 0.5, heatmap, 0.5, 0)
