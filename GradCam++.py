@@ -13,3 +13,9 @@ grad_model = models.Model(
     inputs=[net.inputs],
     outputs=[target_layer.output, net.output]
 )
+
+
+def compute_gradcam_plus(input_image, model, target_class):
+    with tf.GradientTape(persistent=True) as tape:
+        conv_outputs, predictions = model(input_image)
+        loss = predictions[:, target_class]
