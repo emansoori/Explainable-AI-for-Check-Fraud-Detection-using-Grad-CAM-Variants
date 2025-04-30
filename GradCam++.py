@@ -35,3 +35,10 @@ def compute_gradcam_plus(input_image, model, target_class):
     conv_outputs = tf.squeeze(conv_outputs).numpy()
     grads = tf.squeeze(grads).numpy()
     second_grads = tf.squeeze(second_grads).numpy()
+
+
+    grads_power = np.power(grads, 2)
+    second_grads_power = np.power(second_grads, 3)
+    denominator = 2 * grads + second_grads_power
+    denominator = np.where(denominator != 0, denominator, np.ones_like(denominator))
+    alpha = grads_power / denominator
