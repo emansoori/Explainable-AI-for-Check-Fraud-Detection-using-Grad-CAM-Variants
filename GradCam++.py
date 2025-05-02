@@ -42,3 +42,10 @@ def compute_gradcam_plus(input_image, model, target_class):
     denominator = 2 * grads + second_grads_power
     denominator = np.where(denominator != 0, denominator, np.ones_like(denominator))
     alpha = grads_power / denominator
+
+
+    weights = np.sum(alpha * np.maximum(grads, 0), axis=(0, 1))
+    cam = np.zeros(conv_outputs.shape[:2], dtype=np.float32)
+
+    for i, w in enumerate(weights):
+        cam += w * conv_outputs[:, :, i]
