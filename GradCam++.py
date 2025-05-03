@@ -54,3 +54,10 @@ def compute_gradcam_plus(input_image, model, target_class):
     cam = cv2.resize(cam, (input_image.shape[2], input_image.shape[1]), interpolation=cv2.INTER_LINEAR)
     cam /= cam.max() if cam.max() != 0 else 1
     return cam
+
+
+img_path = '/content/drive/MyDrive/Colab Notebooks/9515.jpg'
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+img_resized = cv2.resize(img, (224, 224))
+img_normalized = np.expand_dims(img_resized / 255.0, axis=0)
