@@ -61,3 +61,12 @@ img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 img_resized = cv2.resize(img, (224, 224))
 img_normalized = np.expand_dims(img_resized / 255.0, axis=0)
+
+
+preds = net.predict(img_normalized)
+class_idx = np.argmax(preds[0])
+cam = compute_gradcam_plus(img_normalized, grad_model, class_idx)
+
+
+heatmap = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
+heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
