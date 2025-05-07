@@ -17,3 +17,7 @@ def compute_xgradcam(input_image, model, target_class):
     grads = tape.gradient(loss, conv_outputs)
     if grads is None:
         raise ValueError("Gradient computation failed. Check the target layer or input.")
+    
+    grads = tape.gradient(loss, conv_outputs)
+    if grads is None:
+        raise ValueError("Gradient computation failed. Check the target layer or input.")
