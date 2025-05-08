@@ -27,3 +27,6 @@ def compute_xgradcam(input_image, model, target_class):
     conv_outputs = tf.squeeze(conv_outputs).numpy()
 
     cam = np.zeros(conv_outputs.shape[:2], dtype=np.float32)
+
+    for i, w in enumerate(weights):
+        cam += w * conv_outputs[:, :, i]
