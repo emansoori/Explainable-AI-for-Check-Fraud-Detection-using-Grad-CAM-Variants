@@ -30,3 +30,8 @@ def compute_xgradcam(input_image, model, target_class):
 
     for i, w in enumerate(weights):
         cam += w * conv_outputs[:, :, i]
+
+    cam = np.maximum(cam, 0)  
+    cam = cv2.resize(cam, (input_image.shape[2], input_image.shape[1]))
+    cam /= cam.max() if cam.max() != 0 else 1
+    return cam
