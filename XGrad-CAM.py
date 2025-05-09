@@ -44,3 +44,7 @@ img_resized = cv2.resize(img, (224, 224))
 img_normalized = np.expand_dims(img_resized / 255.0, axis=0)
 
 
+preds = net.predict(img_normalized)
+class_idx = np.argmax(preds[0])
+cam = compute_xgradcam(img_normalized, grad_model, class_idx)
+
