@@ -48,3 +48,14 @@ preds = net.predict(img_normalized)
 class_idx = np.argmax(preds[0])
 cam = compute_xgradcam(img_normalized, grad_model, class_idx)
 
+heatmap = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
+heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+img_uint8 = np.uint8(img)
+superimposed_img = cv2.addWeighted(img_uint8, 0.5, heatmap, 0.5, 0)
+
+plt.imshow(cv2.cvtColor(superimposed_img, cv2.COLOR_BGR2RGB))
+plt.axis('off')
+plt.savefig("xgrad_cam_output.png", bbox_inches='tight', pad_inches=0)
+plt.show()
+
+
